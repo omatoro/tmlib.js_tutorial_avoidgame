@@ -9,8 +9,9 @@ var SCREEN_HEIGHT = 680;
 var ASSETS = {
     "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
     "playerSS": "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/playerSS.tmss",
-    "map":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/map.png",
+    "enemy":    "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Monster]Dragon_B_pochi.png",
     "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya.mp3",
+    "backMap":  "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/map.png",
 };
 /**
  * リソースの読み込み
@@ -93,8 +94,8 @@ tm.define("MainScene", {
         this.enemyGroup = tm.app.CanvasElement().addChildTo(this);
 
         // コントローラーパッド
-        this.padpad = tm.app.Pad().addChildTo(this);
-        pad.position.set(100, SCREEN_HEIGHT - 80);
+        this.pad = tm.app.Pad().addChildTo(this);
+        this.pad.position.set(100, SCREEN_HEIGHT - 80);
     },
 
     update: function (app) {
@@ -128,7 +129,6 @@ tm.define("MainScene", {
         ec.each(function(enemy) {
             if (self.player.isHitElement(enemy)) {
                 app.replaceScene(EndScene())
-                app.stop();
             };
         });
     },
@@ -158,9 +158,6 @@ tm.define("EndScene", {
 
         // スコア
         this.superInit(RESULT_PARAM);
-
-        // ラベル表示
-        this.fromJSON(UI_DATA.LABELS);
     },
 
     // Backボタンを押したらTitleSceneに戻る
@@ -178,10 +175,10 @@ var PLAYER_HEIGHT = 64;
 var GROUND_LIMIT_LEFT  = PLAYER_WIDTH/2;
 var GROUND_LIMIT_RIGHT = SCREEN_WIDTH - PLAYER_WIDTH/2;
 tm.define("Player", {
-    superClass: "tm.app.Sprite",
+    superClass: "tm.app.AnimationSprite",
 
     init: function () {
-        this.superInit("player", PLAYER_WIDTH, PLAYER_HEIGHT);
+        this.superInit("playerSS");
     },
 
     update: function () {
@@ -195,10 +192,12 @@ tm.define("Player", {
     },
 
     left: function () {
+        this.gotoAndPlay("left");
         this.x += 4;
     },
 
     right: function () {
+        this.gotoAndPlay("right");
         this.x -= 4;
     },
 });
@@ -206,11 +205,13 @@ tm.define("Player", {
 /*
  * enemy
  */
+var ENEMY_WIDTH  = 38;
+var ENEMY_HEIGHT = 30;
 tm.define("Enemy", {
     superClass: "tm.app.Sprite",
 
     init: function() {
-        this.superInit("enemy", ENEMY_WIDTH, ENEMY_HEIGHT);
+        this.superInit("enemy", ENEMY_WIDTH*2.5, ENEMY_HEIGHT*2.5);
     },
 
     update: function() {
@@ -227,9 +228,9 @@ tm.define("Enemy", {
  * Map
  */
 tm.define("Map", {
-    superClass: "tm.app.Sprite",
+    superClass: tm.app.Sprite,
 
     init: function() {
-        this.superInit("map", SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.superInit("backMap", SCREEN_WIDTH, SCREEN_HEIGHT);
     },
 });

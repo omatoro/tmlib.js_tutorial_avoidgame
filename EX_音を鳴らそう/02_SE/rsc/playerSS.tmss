@@ -1,8 +1,8 @@
 {
     "image": "player",
     "frame": {
-        "width":120,
-        "height":64,
+        "width":20,
+        "height":16,
         "count": 24
     },
     "animations": {
