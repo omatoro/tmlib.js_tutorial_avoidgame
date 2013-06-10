@@ -157,7 +157,7 @@ tm.define("EndScene", {
 
     init : function(time) {
         // スコア計算
-        RESULT_PARAM.score = (time * 100) |0;
+        RESULT_PARAM.score = (Math.floor(time*100/30)/100) + "秒生き残ることができました。";
 
         // スコア
         this.superInit(RESULT_PARAM);
