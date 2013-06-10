@@ -118,9 +118,14 @@ tm.define("MainScene", {
         this.timeLabel.text = "生き残ってる時間 : " + ((this.timer / 30) |0);
 
         // 敵の生成
+        if (app.frame % 30 == 0) {
+            var enemy = Enemy().addChildTo(this.enemyGroup);
+            enemy.x = Math.rand(0, SCREEN_WIDTH);
+            enemy.y = 0 - enemy.height;
+        }
         if (app.frame % 60 == 0) {
             var enemy = Enemy().addChildTo(this.enemyGroup);
-            enemy.x = Math.rand(0, SCREEN_HEIGHT-enemy.height);
+            enemy.x = Math.rand(0, SCREEN_WIDTH);
             enemy.y = 0 - enemy.height;
         }
 
@@ -179,7 +184,7 @@ tm.define("Player", {
     superClass: "tm.app.AnimationSprite",
 
     init: function () {
-        this.superInit("playerSS", PLAYER_WIDTH*2.5, PLAYER_HEIGHT*2.5);
+        this.superInit("playerSS", PLAYER_WIDTH*4, PLAYER_HEIGHT*4);
     },
 
     update: function (app) {
@@ -221,11 +226,12 @@ tm.define("Enemy", {
     superClass: "tm.app.Sprite",
 
     init: function() {
-        this.superInit("enemy", ENEMY_WIDTH*2.5, ENEMY_HEIGHT*2.5);
+        this.superInit("enemy", ENEMY_WIDTH*4, ENEMY_HEIGHT*4);
+        this.speed = Math.rand(6, 12);
     },
 
     update: function() {
-        this.y += Math.rand(4, 10);
+        this.y += this.speed;
 
         // 画面から見えなくなったら消す
         if (this.y > SCREEN_HEIGHT + this.height) {
