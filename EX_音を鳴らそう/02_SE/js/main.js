@@ -10,7 +10,7 @@ var ASSETS = {
     "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
     "playerSS": "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/playerSS.tmss",
     "enemy":    "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Monster]Dragon_B_pochi.png",
-    "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya.mp3",
+    "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya_short2.mp3",
     "backMap":  "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/map.png",
 };
 /**
@@ -72,6 +72,21 @@ tm.define("TitleScene", {
 /**
  * MainScene
  */
+var UI_DATA = {
+    LABELS: {
+        children: [{
+            type: "Label",
+            name: "timeLabel",
+            x: 200,
+            y: 120,
+            width: SCREEN_WIDTH,
+            fillStyle: "white",
+            text: " ",
+            fontSize: 40,
+            align: "left"
+        }]
+    }
+};
 tm.define("MainScene", {
     superClass : tm.app.Scene,
 
@@ -79,8 +94,8 @@ tm.define("MainScene", {
         this.superInit();
 
         // BGM再生
-        // this.bgm = tm.asset.AssetManager.get("bgm");
-        // this.bgm.setLoop(true).play();
+        this.bgm = tm.asset.AssetManager.get("bgm");
+        this.bgm.setVolume(1.0).setLoop(true).play();
 
         // Map
         this.map = Map().addChildTo(this);
@@ -93,29 +108,19 @@ tm.define("MainScene", {
         // enemy
         this.enemyGroup = tm.app.CanvasElement().addChildTo(this);
 
-        // コントローラーパッド
-        this.pad = tm.app.Pad().addChildTo(this);
-        this.pad.position.set(100, SCREEN_HEIGHT - 80);
+        // スコア用カウントアップ
+        this.timer = 0;
+
+        // ラベル表示
+        this.fromJSON(UI_DATA.LABELS);
     },
 
     update: function (app) {
-        // カウントダウンを行う
-        // --this.limitTime;
+        // カウントアップを行う
+        ++this.timer;
 
         // 制限時間を表示する
-        // this.limitTimeLabel.text = "残り時間 : " + ((this.limitTime / 30) |0);
-
-        // 制限時間がなくなったらEndSceneに遷移する
-        // if (this.limitTime <= 0) {
-        //     this.bgm.stop();
-        //     // app.replaceScene(EndScene(0));
-        // }
-
-        // // ハートが全部なくなったらEndSceneに遷移する
-        // if (this.heartGroup.children.length <= 0) {
-        //     this.bgm.stop();
-        //     // app.replaceScene(EndScene(this.limitTime));
-        // }
+        this.timeLabel.text = "生き残ってる時間 : " + ((this.timer / 30) |0);
 
         // 敵の生成
         if (app.frame % 60 == 0) {
@@ -128,7 +133,8 @@ tm.define("MainScene", {
         var ec = this.enemyGroup.children;
         ec.each(function(enemy) {
             if (self.player.isHitElement(enemy)) {
-                app.replaceScene(EndScene())
+                self.bgm.stop();
+                app.replaceScene(EndScene(self.timer))
             };
         });
     },
@@ -170,18 +176,27 @@ tm.define("EndScene", {
 /*
  * player
  */
-var PLAYER_WIDTH  = 64;
-var PLAYER_HEIGHT = 64;
+var PLAYER_WIDTH  = 20;
+var PLAYER_HEIGHT = 16;
 var GROUND_LIMIT_LEFT  = PLAYER_WIDTH/2;
 var GROUND_LIMIT_RIGHT = SCREEN_WIDTH - PLAYER_WIDTH/2;
 tm.define("Player", {
     superClass: "tm.app.AnimationSprite",
 
     init: function () {
-        this.superInit("playerSS");
+        this.superInit("playerSS", PLAYER_WIDTH*2.5, PLAYER_HEIGHT*2.5);
     },
 
-    update: function () {
+    update: function (app) {
+        // 移動処理　画面の左側をタッチしたら左に移動
+        if (app.pointing.x <= SCREEN_WIDTH/2) {
+            this.moveLeft();
+        }
+        // 画面の右側だったら右に移動
+        else {
+            this.moveRight();
+        }
+
         // 画面からはみ出ないようにする
         if (this.x < GROUND_LIMIT_LEFT) {
             this.x = GROUND_LIMIT_LEFT;
@@ -191,14 +206,14 @@ tm.define("Player", {
         }
     },
 
-    left: function () {
+    moveLeft: function () {
         this.gotoAndPlay("left");
-        this.x += 4;
+        this.x -= 4;
     },
 
-    right: function () {
+    moveRight: function () {
         this.gotoAndPlay("right");
-        this.x -= 4;
+        this.x += 4;
     },
 });
 
