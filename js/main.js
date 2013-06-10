@@ -10,11 +10,11 @@ var SCREEN_HEIGHT = 640;
  * リソースの読み込み
  */
 var ASSETS = {
-    "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
-    "playerSS": "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/playerSS.tmss",
-    "enemy":    "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Monster]Dragon_B_pochi.png",
-    "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya_short2.mp3",
-    "backMap":  "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/map.png",
+    "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/gh-pages/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
+    "playerSS": "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/gh-pages/EX_音を鳴らそう/02_SE/rsc/playerSS.tmss",
+    "enemy":    "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/gh-pages/EX_音を鳴らそう/02_SE/rsc/[Monster]Dragon_B_pochi.png",
+    "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/gh-pages/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya_short2.mp3",
+    "backMap":  "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/gh-pages/EX_音を鳴らそう/02_SE/rsc/map.png",
 };
 
 /**
@@ -144,7 +144,7 @@ var RESULT_PARAM = {
         score: 256,
         msg:      "【避けゲー制作チュートリアル】",
         hashtags: ["omatoro", "tmlibチュートリアル"],
-        url:      "http://testcording.com",
+        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
         width:    SCREEN_WIDTH,
         height:   SCREEN_HEIGHT,
         related:  "tmlib.js Tutorial testcording",
