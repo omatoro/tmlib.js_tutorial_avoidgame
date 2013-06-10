@@ -52,6 +52,6 @@
             "frames": [10, 11, 10, 9],
             "next": "downright",
             "frequency": 5,
-        },
+        }
     }
 }
