@@ -192,7 +192,7 @@ tm.define("Player", {
     update: function (app) {
         // 移動処理
         if (app.pointing.getPointingStart()) {
-            this.direct = (this.direct === "left") ? "right" : "left");
+            this.direct = (this.direct === "left") ? "right" : "left";
         }
         switch (this.direct) {
             case "left":
