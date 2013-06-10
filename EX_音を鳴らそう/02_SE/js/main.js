@@ -4,7 +4,7 @@
 var game = game || {};
 
 var SCREEN_WIDTH  = 960;
-var SCREEN_HEIGHT = 680;
+var SCREEN_HEIGHT = 640;
 
 var ASSETS = {
     "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
