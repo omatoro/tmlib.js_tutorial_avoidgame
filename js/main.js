@@ -185,16 +185,22 @@ tm.define("Player", {
 
     init: function () {
         this.superInit("playerSS", PLAYER_WIDTH*4, PLAYER_HEIGHT*4);
+        // 移動の方向を保持
+        this.direct = "left";
     },
 
     update: function (app) {
-        // 移動処理　画面の左側をタッチしたら左に移動
-        if (app.pointing.x <= SCREEN_WIDTH/2) {
-            this.moveLeft();
+        // 移動処理
+        if (app.pointing.getPointingStart()) {
+            this.direct = (this.direct === "left") ? "right" : "left");
         }
-        // 画面の右側だったら右に移動
-        else {
-            this.moveRight();
+        switch (this.direct) {
+            case "left":
+                this.moveLeft();
+                break;
+            case "right":
+                this.moveRight();
+                break;
         }
 
         // 画面からはみ出ないようにする
