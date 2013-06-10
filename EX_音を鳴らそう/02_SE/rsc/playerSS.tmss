@@ -1,0 +1,57 @@
+{
+    "image": "player",
+    "frame": {
+        "width":120,
+        "height":64,
+        "count": 24
+    },
+    "animations": {
+        "down": {
+            "frames": [1, 1+1, 1, 1-1],
+            "next": "down",
+            "frequency": 5,
+        },
+
+        "up": {
+            "frames": [19, 19+1, 19, 19-1],
+            "next": "up",
+            "frequency": 5,
+        },
+
+        "left": {
+            "frames": [7, 7+1, 7, 7-1],
+            "next": "left",
+            "frequency": 5,
+        },
+
+        "right": {
+            "frames": [13, 13+1, 13, 13-1],
+            "next": "right",
+            "frequency": 5,
+        },
+
+        "upleft": {
+            "frames": [16, 16+1, 16, 16-1],
+            "next": "upleft",
+            "frequency": 5,
+        },
+
+        "upright": {
+            "frames": [22, 22+1, 22, 22-1],
+            "next": "upright",
+            "frequency": 5,
+        },
+
+        "downleft": {
+            "frames": [4, 4+1, 4, 4-1],
+            "next": "downleft",
+            "frequency": 5,
+        },
+
+        "downright": {
+            "frames": [10, 10+1, 10, 10-1],
+            "next": "downright",
+            "frequency": 5,
+        },
+    }
+}
