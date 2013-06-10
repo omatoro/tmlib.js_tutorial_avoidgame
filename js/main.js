@@ -117,16 +117,13 @@ tm.define("MainScene", {
         // 制限時間を表示する
         this.timeLabel.text = "生き残ってる時間 : " + ((this.timer / 30) |0);
 
-        // 敵の生成
-        if (app.frame % 30 == 0) {
-            var enemy = Enemy().addChildTo(this.enemyGroup);
-            enemy.x = Math.rand(0, SCREEN_WIDTH);
-            enemy.y = 0 - enemy.height;
-        }
-        if (app.frame % 60 == 0) {
-            var enemy = Enemy().addChildTo(this.enemyGroup);
-            enemy.x = Math.rand(0, SCREEN_WIDTH);
-            enemy.y = 0 - enemy.height;
+        // 敵の生成(難易度をどんどん上げる)
+        for (var i = (this.timer / 300); i > 0; --i) {
+            if (this.timer % 30 == 0) {
+                var enemy = Enemy().addChildTo(this.enemyGroup);
+                enemy.x = Math.rand(0, SCREEN_WIDTH);
+                enemy.y = 0 - enemy.height;
+            }
         }
 
         var self = this;
