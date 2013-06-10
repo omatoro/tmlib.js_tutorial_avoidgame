@@ -7,10 +7,10 @@ var SCREEN_WIDTH  = 960;
 var SCREEN_HEIGHT = 680;
 
 var ASSETS = {
-    "player":   "./../rsc/[Animal]Chicken.png",
-    "playerSS": "./../rsc/playerSS.tmss",
-    "map":      "./../rsc/map.png",
-    "bgm":      "./../rsc/Comical01_Koya.mp3",
+    "player":   "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/[Animal]Chicken.png",
+    "playerSS": "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/playerSS.tmss",
+    "map":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/map.png",
+    "bgm":      "http://rawgithub.com/omatoro/tmlib.js_tutorial_avoidgame/master/EX_音を鳴らそう/02_SE/rsc/Comical01_Koya.mp3",
 };
 /**
  * リソースの読み込み
@@ -78,8 +78,8 @@ tm.define("MainScene", {
         this.superInit();
 
         // BGM再生
-        this.bgm = tm.asset.AssetManager.get("bgm");
-        this.bgm.setLoop(true).play();
+        // this.bgm = tm.asset.AssetManager.get("bgm");
+        // this.bgm.setLoop(true).play();
 
         // Map
         this.map = Map().addChildTo(this);
