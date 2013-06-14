@@ -230,7 +230,10 @@ tm.define("Player", {
     updateMobile: function (app) {
         // 移動処理：モバイルなら加速度センサーを利用
         var gravity = app.accelerometer.gravity;
-        this.x += gravity.x * 1.0;
+        this.x += gravity.y * 1.0;
+
+        // 移動の限界
+        this.moveLimit();
     },
 });
 
