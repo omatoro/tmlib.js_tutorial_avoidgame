@@ -184,22 +184,13 @@ tm.define("Player", {
         this.superInit("playerSS", PLAYER_WIDTH*4, PLAYER_HEIGHT*4);
         // 移動の方向を保持
         this.direct = "left";
+        // スマホかどうか判断
+        this.isMobile = tm.isMobile;
+        // スマホだったら加速度を使うので、タッチ入力での移動を行わない
+        this.update = (this.isMobile) ? this.updateMobile : this.updateNotMobile;
     },
 
-    update: function (app) {
-        // 移動処理
-        if (app.pointing.getPointingStart()) {
-            this.direct = (this.direct === "left") ? "right" : "left";
-        }
-        switch (this.direct) {
-            case "left":
-                this.moveLeft();
-                break;
-            case "right":
-                this.moveRight();
-                break;
-        }
-
+    moveLimit: function () {
         // 画面からはみ出ないようにする
         if (this.x < GROUND_LIMIT_LEFT) {
             this.x = GROUND_LIMIT_LEFT;
@@ -209,14 +200,37 @@ tm.define("Player", {
         }
     },
 
-    moveLeft: function () {
+    clickLeft: function () {
         this.gotoAndPlay("left");
         this.x -= 4;
     },
 
-    moveRight: function () {
+    clickRight: function () {
         this.gotoAndPlay("right");
         this.x += 4;
+    },
+
+    updateNotMobile: function (app) {
+        // 移動処理
+        if (app.pointing.getPointingStart()) {
+            this.direct = (this.direct === "left") ? "right" : "left";
+        }
+        switch (this.direct) {
+            case "left":
+                this.clickLeft();
+                break;
+            case "right":
+                this.clickRight();
+                break;
+        }
+        // 移動の限界
+        this.moveLimit();
+    },
+
+    updateMobile: function (app) {
+        // 移動処理：モバイルなら加速度センサーを利用
+        var gravity = app.accelerometer.gravity;
+        this.x += gravity.x * 1.0;
     },
 });
 
