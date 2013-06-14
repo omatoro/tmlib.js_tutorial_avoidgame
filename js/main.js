@@ -232,6 +232,10 @@ tm.define("Player", {
         var gravity = app.accelerometer.gravity;
         this.x += gravity.y * 1.0;
 
+        // 移動方向によってアニメーション
+        if (gravity.y > 0) { this.gotoAndPlay("left"); }
+        else               { this.gotoAndPlay("right"); }
+
         // 移動の限界
         this.moveLimit();
     },
