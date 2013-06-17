@@ -1,8 +1,6 @@
 /**
- * ゲーム用ネームスペース作成、定数作成
+ * ゲーム用定数作成
  */
-var game = game || {};
-
 var SCREEN_WIDTH  = 960;
 var SCREEN_HEIGHT = 640;
 
@@ -136,7 +134,6 @@ tm.define("MainScene", {
         });
     },
 });
-
 
 
 /**
