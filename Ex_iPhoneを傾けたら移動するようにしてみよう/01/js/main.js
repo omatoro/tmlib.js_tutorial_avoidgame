@@ -3,6 +3,37 @@
  */
 var SCREEN_WIDTH  = 960;
 var SCREEN_HEIGHT = 640;
+var RESULT_PARAM = {
+        score: 256,
+        msg:      "【避けゲー制作チュートリアル】",
+        hashtags: ["omatoro", "tmlibチュートリアル"],
+        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
+        width:    SCREEN_WIDTH,
+        height:   SCREEN_HEIGHT,
+        related:  "tmlib.js Tutorial testcording",
+};
+var UI_DATA = {
+    main: { // MainScene用ラベル
+        children: [{
+            type: "Label",
+            name: "timeLabel",
+            x: 200,
+            y: 120,
+            width: SCREEN_WIDTH,
+            fillStyle: "white",
+            // text: "残り時間を表示する",
+            text: " ",
+            fontSize: 40,
+            align: "left"
+        }]
+    }
+};
+var PLAYER_WIDTH  = 20;
+var PLAYER_HEIGHT = 16;
+var PLAYER_GROUND_LIMIT_LEFT  = PLAYER_WIDTH/2;
+var PLAYER_GROUND_LIMIT_RIGHT = SCREEN_WIDTH - PLAYER_WIDTH/2;
+var ENEMY_WIDTH  = 38;
+var ENEMY_HEIGHT = 30;
 
 /**
  * リソースの読み込み
@@ -65,22 +96,6 @@ tm.define("TitleScene", {
 /**
  * MainScene
  */
-var UI_DATA = {
-    LABELS: {
-        children: [{
-            type: "Label",
-            name: "timeLabel",
-            x: 200,
-            y: 120,
-            width: SCREEN_WIDTH,
-            fillStyle: "white",
-            // text: "残り時間を表示する",
-            text: " ",
-            fontSize: 40,
-            align: "left"
-        }]
-    }
-};
 tm.define("MainScene", {
     superClass : "tm.app.Scene",
 
@@ -92,7 +107,7 @@ tm.define("MainScene", {
         this.bgm.setVolume(1.0).setLoop(true).play();
 
         // Map
-        this.map = Map().addChildTo(this);
+        this.map = tm.app.Sprite("backMap", SCREEN_WIDTH, SCREEN_HEIGHT).addChildTo(this);
         this.map.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
         // Player
@@ -106,7 +121,7 @@ tm.define("MainScene", {
         this.timer = 0;
 
         // ラベル表示
-        this.fromJSON(UI_DATA.LABELS);
+        this.fromJSON(UI_DATA.main);
     },
 
     update: function (app) {
@@ -117,12 +132,12 @@ tm.define("MainScene", {
         this.timeLabel.text = "生き残ってる時間 : " + ((this.timer / 30) |0);
 
         // 敵の生成(難易度をどんどん上げる)
-        for (var i = (this.timer / 300); i > 0; --i) {
-            if (this.timer % 30 == 0) {
+        if (this.timer % 30 === 0) {
+        	for (var i = 0, n = (this.timer / 300); i < n; ++i) {
                 var enemy = Enemy().addChildTo(this.enemyGroup);
                 enemy.x = Math.rand(0, SCREEN_WIDTH);
                 enemy.y = 0 - enemy.height;
-            }
+        	}
         }
 
         var self = this;
@@ -140,16 +155,6 @@ tm.define("MainScene", {
 /**
  * EndScene
  */
-var RESULT_PARAM = {
-        score: 256,
-        msg:      "【避けゲー制作チュートリアル】",
-        hashtags: ["omatoro", "tmlibチュートリアル"],
-        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
-        width:    SCREEN_WIDTH,
-        height:   SCREEN_HEIGHT,
-        related:  "tmlib.js Tutorial testcording",
-};
-
 tm.define("EndScene", {
     superClass : "tm.app.ResultScene",
 
@@ -171,10 +176,6 @@ tm.define("EndScene", {
 /*
  * player
  */
-var PLAYER_WIDTH  = 20;
-var PLAYER_HEIGHT = 16;
-var GROUND_LIMIT_LEFT  = PLAYER_WIDTH/2;
-var GROUND_LIMIT_RIGHT = SCREEN_WIDTH - PLAYER_WIDTH/2;
 tm.define("Player", {
     superClass: "tm.app.AnimationSprite",
 
@@ -187,11 +188,11 @@ tm.define("Player", {
 
     moveLimit: function () {
         // 画面からはみ出ないようにする
-        if (this.x < GROUND_LIMIT_LEFT) {
-            this.x = GROUND_LIMIT_LEFT;
+        if (this.x < PLAYER_GROUND_LIMIT_LEFT) {
+            this.x = PLAYER_GROUND_LIMIT_LEFT;
         }
-        if (this.x > GROUND_LIMIT_RIGHT) {
-            this.x = GROUND_LIMIT_RIGHT;
+        if (this.x > PLAYER_GROUND_LIMIT_RIGHT) {
+            this.x = PLAYER_GROUND_LIMIT_RIGHT;
         }
     },
 
@@ -227,8 +228,6 @@ tm.define("Player", {
 /*
  * enemy
  */
-var ENEMY_WIDTH  = 38;
-var ENEMY_HEIGHT = 30;
 tm.define("Enemy", {
     superClass: "tm.app.Sprite",
 
@@ -245,16 +244,4 @@ tm.define("Enemy", {
             this.remove();
         }
     }
-});
-
-
-/*
- * Map
- */
-tm.define("Map", {
-    superClass: "tm.app.Sprite",
-
-    init: function() {
-        this.superInit("backMap", SCREEN_WIDTH, SCREEN_HEIGHT);
-    },
 });

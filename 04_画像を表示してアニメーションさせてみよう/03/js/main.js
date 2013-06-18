@@ -3,6 +3,33 @@
  */
 var SCREEN_WIDTH  = 960;
 var SCREEN_HEIGHT = 640;
+var RESULT_PARAM = {
+        score: 256,
+        msg:      "【避けゲー制作チュートリアル】",
+        hashtags: ["omatoro", "tmlibチュートリアル"],
+        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
+        width:    SCREEN_WIDTH,
+        height:   SCREEN_HEIGHT,
+        related:  "tmlib.js Tutorial testcording",
+};
+var UI_DATA = {
+    main: { // MainScene用ラベル
+        children: [{
+            type: "Label",
+            name: "timeLabel",
+            x: 200,
+            y: 120,
+            width: SCREEN_WIDTH,
+            fillStyle: "white",
+            // text: "残り時間を表示する",
+            text: " ",
+            fontSize: 40,
+            align: "left"
+        }]
+    }
+};
+var PLAYER_WIDTH  = 20;
+var PLAYER_HEIGHT = 16;
 
 /**
  * リソースの読み込み
@@ -63,21 +90,6 @@ tm.define("TitleScene", {
 /**
  * MainScene
  */
-var UI_DATA = {
-    LABELS: {
-        children: [{
-            type: "Label",
-            name: "timeLabel",
-            x: 200,
-            y: 120,
-            width: SCREEN_WIDTH,
-            fillStyle: "white",
-            text: "残り時間を表示する",
-            fontSize: 40,
-            align: "left"
-        }]
-    }
-};
 tm.define("MainScene", {
     superClass : "tm.app.Scene",
 
@@ -85,7 +97,7 @@ tm.define("MainScene", {
         this.superInit();
 
         // Map
-        this.map = Map().addChildTo(this);
+        this.map = tm.app.Sprite("backMap", SCREEN_WIDTH, SCREEN_HEIGHT).addChildTo(this);
         this.map.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
         // Player
@@ -93,7 +105,7 @@ tm.define("MainScene", {
         this.player.position.set(150, 600);
 
         // ラベル表示
-        this.fromJSON(UI_DATA.LABELS);
+        this.fromJSON(UI_DATA.main);
 
         // 画面(シーンの描画箇所)をタッチした時の動作
         this.addEventListener("pointingend", function(e) {
@@ -107,16 +119,6 @@ tm.define("MainScene", {
 /**
  * EndScene
  */
-var RESULT_PARAM = {
-        score: 256,
-        msg:      "【避けゲー制作チュートリアル】",
-        hashtags: ["omatoro", "tmlibチュートリアル"],
-        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
-        width:    SCREEN_WIDTH,
-        height:   SCREEN_HEIGHT,
-        related:  "tmlib.js Tutorial testcording",
-};
-
 tm.define("EndScene", {
     superClass : "tm.app.ResultScene",
 
@@ -134,25 +136,11 @@ tm.define("EndScene", {
 /*
  * player
  */
-var PLAYER_WIDTH  = 20;
-var PLAYER_HEIGHT = 16;
 tm.define("Player", {
     superClass: "tm.app.AnimationSprite",
 
     init: function () {
         this.superInit("playerSS", PLAYER_WIDTH*4, PLAYER_HEIGHT*4);
         this.gotoAndPlay("left");
-    },
-});
-
-
-/*
- * Map
- */
-tm.define("Map", {
-    superClass: "tm.app.Sprite",
-
-    init: function() {
-        this.superInit("backMap", SCREEN_WIDTH, SCREEN_HEIGHT);
     },
 });

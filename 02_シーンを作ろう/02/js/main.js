@@ -3,6 +3,15 @@
  */
 var SCREEN_WIDTH  = 960;
 var SCREEN_HEIGHT = 640;
+var RESULT_PARAM = {
+        score: 256,
+        msg:      "【避けゲー制作チュートリアル】",
+        hashtags: ["omatoro", "tmlibチュートリアル"],
+        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
+        width:    SCREEN_WIDTH,
+        height:   SCREEN_HEIGHT,
+        related:  "tmlib.js Tutorial testcording",
+};
 
 /**
  * ゲーム起動処理
@@ -53,16 +62,6 @@ tm.define("MainScene", {
 /**
  * EndScene
  */
-var RESULT_PARAM = {
-        score: 256,
-        msg:      "【避けゲー制作チュートリアル】",
-        hashtags: ["omatoro", "tmlibチュートリアル"],
-        url:      "http://omatoro.github.io/tmlib.js_tutorial_avoidgame/",
-        width:    SCREEN_WIDTH,
-        height:   SCREEN_HEIGHT,
-        related:  "tmlib.js Tutorial testcording",
-};
-
 tm.define("EndScene", {
     superClass : "tm.app.ResultScene",
 
